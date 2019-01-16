@@ -94,28 +94,25 @@ module.exports = {
 }
 
 async function getDatosJuez(juezId, derechoId, fecha) {
-    // Antiguedad
-    // Numero de resoluciones
-    // Porcentaje de fallos
     let firstYear = await models.sequelize.query(`
     select min(year) as year from Resoluciones R join MagistradosResoluciones MR on MR.ResolucioneId = R.id join Magistrados M on M.id = MR.MagistradoId 
-    where M.id = :juezId and R.fecha < :fecha;
+    where M.id = :juezId;
     `, {
         replacements: {
-            juezId: juezId,
-            fecha: fecha
+            juezId: juezId
         },
         type: models.sequelize.QueryTypes.SELECT
     });
     firstYear = firstYear[0].year;
-    let antiguedad = new Date(fecha).getFullYear() - new Date(firstYear).getFullYear();
+    let antiguedad = new Date(fecha).getFullYear() - firstYear;
     let resoluciones = await models.sequelize.query(`
-    select count(*) as count from Resoluciones R join MagistradosResoluciones MR on MR.ResolucioneId = R.id join Magistrados M on M.id = MR.MagistradoId 
-    where M.id = :juezId and R.fecha < :fecha;
+    select count(*) as count from Resoluciones R join MagistradosResoluciones MR on MR.ResolucioneId = R.id join Magistrados M on M.id = MR.MagistradoId  
+    join ResolucionesDerechos RD on RD.ResolucioneId = R.id where M.id = :juezId and R.fecha < :fecha and RD.DerechoId = :derechoId;
     `, {
         replacements: {
             juezId: juezId,
-            fecha: fecha
+            fecha: fecha,
+            derechoId: derechoId
         },
         type: models.sequelize.QueryTypes.SELECT
     });
@@ -132,6 +129,7 @@ async function getDatosJuez(juezId, derechoId, fecha) {
         },
         type: models.sequelize.QueryTypes.SELECT
     });
+    
     return {
         antiguedad: antiguedad,
         resoluciones: resoluciones,

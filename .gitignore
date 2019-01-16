@@ -1,2 +1,4 @@
 scripts/datasets/
 node_modules/
+scripts/svm/data/
+scripts/svm/results/

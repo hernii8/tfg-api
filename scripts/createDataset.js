@@ -59,9 +59,9 @@ async function getSentenciasDerecho(materiaId) {
                 "," + "\"exitoRelacion\"" +
                 "," + "\"antiguedadJuez\"" +
                 "," + "\"resolucionesJuez\"" +
+                "," + "\"desestimatoriosJuez\"" +
                 "," + "\"estimatoriosJuez\"" +
                 "," + "\"estimatoriosParcialesJuez\"" +
-                "," + "\"desestimatoriosJuez\"" +
                 "," + "\"porcentajeEspecializacion\"" +
                 "," + "\"antiguedadAbogado\"" +
                 "," + "\"numeroResolucionesMedias\"" +
