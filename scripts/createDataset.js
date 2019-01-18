@@ -20,6 +20,7 @@ async function getSentenciasDerecho(materiaId) {
         let i = 0;
         let sentencias;
         let derecho = await models.Derechos.findById(materiaId);
+        let nombreDataset = derecho.nombre.toLowerCase().replace(/ /g, "_");
         if (!derecho.mostrar) {
             derecho = await models.Derechos.findOne({
                 where: {
@@ -40,32 +41,32 @@ async function getSentenciasDerecho(materiaId) {
             derecho = derecho.Padre[0];
         }
         if (!derecho) throw new Error("No hay datos para esta materia");
-        fs.open('datasets/dataset_' + materiaId + '.csv', 'w', async (err, file) => {
+        fs.open('datasets/' + nombreDataset + '.csv', 'w', async (err, file) => {
             if (err) throw err;
             fs.write(file,
-                "\"" + "fallo" + "\"" +
-                "," + "\"perfil\"" +
-                "," + "\"posicion\"" +
-                "," + "\"comunidad\"" +
-                "," + "\"resolucionesPerfilPosicion\"" +
-                "," + "\"exitoPerfilPosicion\"" +
-                "," + "\"resolucionesPerfil\"" +
-                "," + "\"exitoPerfil\"" +
-                "," + "\"resolucionesPosicion\"" +
-                "," + "\"exitoPosicion\"" +
-                "," + "\"resolucionesDerecho\"" +
-                "," + "\"exitoDerecho\"" +
-                "," + "\"resolucionesRelacion\"" +
-                "," + "\"exitoRelacion\"" +
-                "," + "\"antiguedadJuez\"" +
-                "," + "\"resolucionesJuez\"" +
-                "," + "\"desestimatoriosJuez\"" +
-                "," + "\"estimatoriosJuez\"" +
-                "," + "\"estimatoriosParcialesJuez\"" +
-                "," + "\"porcentajeEspecializacion\"" +
-                "," + "\"antiguedadAbogado\"" +
-                "," + "\"numeroResolucionesMedias\"" +
-                "," + "\"tasaExitoMedia\"" +
+                "" + "fallo" + "" +
+                " " + "perfil" +
+                " " + "posicion" +
+                " " + "comunidad" +
+                " " + "resolucionesPerfilPosicion" +
+                " " + "exitoPerfilPosicion" +
+                " " + "resolucionesPerfil" +
+                " " + "exitoPerfil" +
+                " " + "resolucionesPosicion" +
+                " " + "exitoPosicion" +
+                " " + "resolucionesDerecho" +
+                " " + "exitoDerecho" +
+                " " + "resolucionesRelacion" +
+                " " + "exitoRelacion" +
+                " " + "antiguedadJuez" +
+                " " + "resolucionesJuez" +
+                " " + "desestimatoriosJuez" +
+                " " + "estimatoriosJuez" +
+                " " + "estimatoriosParcialesJuez" +
+                " " + "porcentajeEspecializacion" +
+                " " + "antiguedadAbogado" +
+                " " + "numeroResolucionesMedias" +
+                " " + "tasaExitoMedia" +
                 "\n",
                 (err) => {
                     if (err) throw err;
@@ -149,29 +150,29 @@ async function getSentenciasDerecho(materiaId) {
                             falloParte = falloParte.FallosPartes[0];
                             let data = await dataService.getDatos(abogado, falloParte.PosicionesProcesaleId, falloParte.Parte.Perfiles[0].id, sentencia.Magistrados[0].id, derecho.id, materiaId, sentencia.fecha);
                             fs.write(file,
-                                "\"" + fallo + "\"" +
-                                "," + "\"" + falloParte.Parte.Perfiles[0].nombre + "\"" +
-                                "," + "\"" + falloParte.PosicionesProcesale.nombre + "\"" +
-                                "," + "\"" + abogado.comunidad.toUpperCase() + "\"" +
-                                "," + data.datosAbogadoPerfilPosicion.total +
-                                "," + data.datosAbogadoPerfilPosicion.tasaExito +
-                                "," + data.datosAbogadoPerfil.total +
-                                "," + data.datosAbogadoPerfil.tasaExito +
-                                "," + data.datosAbogadoPosicion.total +
-                                "," + data.datosAbogadoPosicion.tasaExito +
-                                "," + data.datosAbogadoDerecho.total +
-                                "," + data.datosAbogadoDerecho.tasaExito +
-                                "," + data.relacion.total +
-                                "," + data.relacion.tasaExito +
-                                "," + data.datosJuez.antiguedad +
-                                "," + data.datosJuez.resoluciones +
-                                "," + (data.datosJuez.fallos[0] ? data.datosJuez.fallos[0].count : 0) +
-                                "," + (data.datosJuez.fallos[1] ? data.datosJuez.fallos[1].count : 0) +
-                                "," + (data.datosJuez.fallos[2] ? data.datosJuez.fallos[2].count : 0) +
-                                "," + data.porcentajeEspecializacion +
-                                "," + (data.antiguedadAbogado > 0 ? data.antiguedadAbogado : 0) +
-                                "," + data.medias.numeroResolucionesMedias +
-                                "," + data.medias.tasaExitoMedia +
+                                "" + fallo.replace(" ", "-") + "" +
+                                " " + "" + falloParte.Parte.Perfiles[0].nombre.replace(/ /g, "-") + "" +
+                                " " + "" + falloParte.PosicionesProcesale.nombre.replace(/ /g, "-") + "" +
+                                " " + "" + abogado.comunidad.toUpperCase().replace(/ /g, "-") + "" +
+                                " " + data.datosAbogadoPerfilPosicion.total +
+                                " " + data.datosAbogadoPerfilPosicion.tasaExito +
+                                " " + data.datosAbogadoPerfil.total +
+                                " " + data.datosAbogadoPerfil.tasaExito +
+                                " " + data.datosAbogadoPosicion.total +
+                                " " + data.datosAbogadoPosicion.tasaExito +
+                                " " + data.datosAbogadoDerecho.total +
+                                " " + data.datosAbogadoDerecho.tasaExito +
+                                " " + data.relacion.total +
+                                " " + data.relacion.tasaExito +
+                                " " + data.datosJuez.antiguedad +
+                                " " + data.datosJuez.resoluciones +
+                                " " + (data.datosJuez.fallos[0] ? data.datosJuez.fallos[0].count : 0) +
+                                " " + (data.datosJuez.fallos[1] ? data.datosJuez.fallos[1].count : 0) +
+                                " " + (data.datosJuez.fallos[2] ? data.datosJuez.fallos[2].count : 0) +
+                                " " + data.porcentajeEspecializacion +
+                                " " + (data.antiguedadAbogado > 0 ? data.antiguedadAbogado : 0) +
+                                " " + data.medias.numeroResolucionesMedias +
+                                " " + data.medias.tasaExitoMedia +
                                 "\n",
                                 (err) => {
                                     if (err) throw err;

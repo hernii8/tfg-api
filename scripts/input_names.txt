@@ -1,0 +1,22 @@
+perfil							discrete		2	PERSONA-FÍSICA PERSONA-JURÍDICA
+posicion						discrete		2	DEMANDADO DEMANDANTE
+comunidad						discrete		19	ANDALUCÍA ARAGÓN ASTURIAS CANARIAS CANTABRIA CASTILLA-LA-MANCHA CASTILLA-Y-LEÓN CATALUÑA CEUTA COMUNIDAD-DE-MADRID COMUNITAT-VALENCIANA EXTREMADURA GALICIA ILLES-BALEARS LA-RIOJA MELILLA MURCIA NAVARRA PAÍS-VASCO
+resolucionesPerfilPosicion		continuous
+exitoPerfilPosicion				continuous
+resolucionesPerfil				continuous
+exitoPerfil						continuous
+resolucionesPosicion			continuous
+exitoPosicion					continuous
+resolucionesDerecho				continuous
+exitoDerecho					continuous
+resolucionesRelacion			continuous
+exitoRelacion					continuous
+antiguedadJuez					continuous
+resolucionesJuez				continuous
+desestimatoriosJuez				continuous
+estimatoriosJuez				continuous
+estimatoriosParcialesJuez		continuous
+porcentajeEspecializacion		continuous
+antiguedadAbogado				continuous
+numeroResolucionesMedias		continuous
+tasaExitoMedia					continuous

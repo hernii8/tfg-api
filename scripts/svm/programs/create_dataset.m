@@ -1,18 +1,16 @@
-clear all
+function []=create_dataset(dataset, n_lineas)
+% clear all
 clc
 addpath(pwd)
-
-dataset='lesiones';
+% dataset='delitos_salud_e_integridad';
 
 fprintf('---------------------------------------\n')
 fprintf('creating dataset %s ...\n',dataset);
 
-nf='original/dataset_1127.csv';np=2166;ni=22;
+nf=strcat('original/',dataset,'.csv');np=(n_lineas-1);ni=22;
 
 % data reading
-directory=sprintf('../data/%s',dataset);cd(directory)
-[x cl ni nc input_name class_name indicator]=read_data(nf,np,ni);
-cd ../../programs
+[x cl ni nc input_name class_name indicator]=read_data(dataset,nf,np,ni);
 
 % filtering patterns and inputs
 nf=sprintf('../data/%s/%s.log',dataset,dataset);f=open_file(nf,'w');
@@ -105,8 +103,10 @@ for i=1:nc
 end
 %ntp/nvp/nsp=no. training/validation/test patterns for each fold
 ntp=zeros(1,kfold);nvp=zeros(1,kfold);nsp=zeros(1,kfold);x2=zeros(np,ni);
-nf=sprintf('../data/%s/folds/%s_partitions.dat',dataset,dataset);f=open_file(nf,'w');
-nf=sprintf('../data/%s/folds/mean_std_folds_%s.dat',dataset,dataset);f2=open_file(nf,'w');
+nf=sprintf('../data/%s/folds/%s_partitions.dat',dataset,dataset);
+f=open_file(nf,'w');
+nf=sprintf('../data/%s/folds/mean_std_folds_%s.dat',dataset,dataset);
+f2=open_file(nf,'w');
 fprintf(f2,'%10s %10s %10s\n','input','mean','std');
 for i=1:kfold
     ti=[];vi=[];si=[];j=i;
@@ -172,3 +172,5 @@ fclose(f);
 
 fprintf('created %s\n',dataset)
 % msgbox(sprintf('FINISHED CREATE_DATASET %s',dataset))
+exit
+end
