@@ -4,6 +4,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const server = require('http').Server(app);
 const morgan = require('morgan');
+const models = require('./models');
 const port = 3000;
 app.use(function (req, res, next) {
    res.header('Access-Control-Allow-Origin', '*');

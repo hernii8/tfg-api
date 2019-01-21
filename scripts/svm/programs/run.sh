@@ -6,6 +6,9 @@ then
 	echo "Faltan parametros"
 	exit
 fi
+cd ../../
+node createDataset.js "$1"
+cd svm/programs/
 [ -d "../data" ] || mkdir ../data || exit
 [ -d "../data/$1" ] || mkdir ../data/$1 || exit
 [ -d "../data/$1/original" ] || mkdir ../data/$1/original || exit
@@ -22,3 +25,6 @@ interactive=1
 
 clear
 ./svm $model $basedir $1 $args_model $interactive
+cd training
+./training $1
+cd ..
