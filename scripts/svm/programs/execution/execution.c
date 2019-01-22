@@ -73,6 +73,17 @@ void read_dataset_info()
 }
 */
 
+int getLastSlash(char *dir)
+{
+	int i = 0;
+	for (i = strlen(dir); i > 0; i--)
+	{
+		if (dir[i] == '/')
+			return i;
+	}
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
 	int i, k;
@@ -83,18 +94,22 @@ int main(int argc, char *argv[])
 		printf("Faltan argumentos");
 		return (0);
 	}
-	strcpy(basedir, "../..");
+	char dir[500];
+	int last = getLastSlash(argv[0]);
+	strncpy(dir, argv[0], last);
+	strcpy(basedir, strcat(dir, "/../.."));
 	strcpy(dataset, argv[1]);
 	read_dataset_info();
-	if (argc < (2+ni))
+	if (argc < (2 + ni))
 	{
 		printf("Faltan argumentos");
 		return (0);
 	}
 	//read_data();
-	float *entrada = (float *) malloc((1 + ni) * sizeof(float));
-	for(i=0; i<ni; i++){
-		entrada[i] = atof(argv[i+2]);
+	float *entrada = (float *)malloc((1 + ni) * sizeof(float));
+	for (i = 0; i < ni; i++)
+	{
+		entrada[i] = atof(argv[i + 2]);
 	}
 	t = (struct svm_node *)calloc(1 + ni, sizeof(struct svm_node));
 	if (!t)
@@ -118,7 +133,7 @@ int main(int argc, char *argv[])
 		t[i].index = i;
 		t[i].value = entrada[i];
 	}
-	t[ni].index=-1;
+	t[ni].index = -1;
 	k = svm_predict(svm, t);
 	printf("%i", k);
 	// deallocate_float_matrix(x, np, ni, "x");

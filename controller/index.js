@@ -1,3 +1,4 @@
 module.exports = {
-    getterController: require('./getter')
+    getterController: require('./getter'),
+    predictController: require('./predict')
 }

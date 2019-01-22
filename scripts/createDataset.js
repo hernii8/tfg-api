@@ -161,7 +161,15 @@ async function getSentenciasDerecho(materiaNombre) {
                             continue;
                         }
                         falloParte = falloParte.FallosPartes[0];
-                        let data = await dataService.getDatos(abogado, falloParte.PosicionesProcesaleId, falloParte.Parte.Perfiles[0].id, sentencia.Magistrados[0].id, derecho.id, materiaId, sentencia.fecha);
+                        let data = await dataService.getDatos({
+                            abogado: abogado,
+                            posicionId: falloParte.PosicionesProcesaleId,
+                            perfilId: falloParte.Parte.Perfiles[0].id,
+                            juezId: sentencia.Magistrados[0].id,
+                            derechoId: derecho.id,
+                            materiaId: materiaId,
+                            fecha: sentencia.fecha
+                        });
                         fs.write(file,
                             "" + fallo.replace(" ", "-") + "" +
                             " " + "" + falloParte.Parte.Perfiles[0].nombre.replace(/ /g, "-") + "" +

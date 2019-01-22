@@ -2,7 +2,7 @@ const models = require('../models');
 const Op = models.sequelize.Op;
 
 module.exports = {
-    getDatos: async (abogado, posicionId, perfilId, juezId, derechoId, materiaId, fecha) => {
+    getDatos: async ({abogado, posicionId, perfilId, juezId, derechoId, materiaId, fecha}) => {
         try{
         let porcentajeEspecializacion = await models.sequelize.query(
             `
