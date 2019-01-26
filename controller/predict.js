@@ -55,7 +55,7 @@ module.exports = {
             console.log("Datos obtenidos");
             let formattedData = await formatData(lawyerData, abogado, req.body.perfil, req.body.posicion, nombreMateria);
             console.log("Datos formateados");
-            let prediction = makePrediction(formattedData, nombreMateria, (prediccion, err) => {
+            let prediction = makePrediction(formattedData, nombreMateria, req.body.posicion, (prediccion, err) => {
                 try {
                     if (err) throw err;
                     console.log("Prediccion hecha");
@@ -162,21 +162,25 @@ async function formatData(data, abogado, perfil, posicion, nombreMateria) {
     return formattedData;
 }
 
-function makePrediction(data, nombreMateria, cb) {
+function makePrediction(data, nombreMateria, posicion, cb) {
     let dataString = data.toString().replace(/,/g, " ");
     exec(__dirname + "/../scripts/svm/programs/execution/execution " + nombreMateria.replace(/ /g, "_").toLowerCase() + " " + dataString, function (err, stdout, stderr) {
         if (err) {
             cb(null, err);
         } else {
+            let resultado;
             switch (stdout) {
                 case "0":
-                    cb("DESESTIMATORIO");
+                    resultado = posicion == "DEMANDANTE" ? "PERDIDO" : "GANADO";
+                    cb(resultado);
                     break;
                 case "1":
-                    cb("ESTIMATORIO PARCIAL");
+                    resultado = posicion == "DEMANDANTE" ? "PARCIALMENTE PERDIDO" : "PARCIALMENTE GANADO";
+                    cb(resultado);
                     break;
                 case "2":
-                    cb("ESTIMATORIO");
+                    resultado = posicion == "DEMANDANTE" ? "GANADO" : "PERDIDO";
+                    cb(resultado);
                     break;
                 default:
                     throw new Error("Ha habido un error");
